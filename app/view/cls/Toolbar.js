@@ -44,33 +44,18 @@ Ext.define('Docs.view.cls.Toolbar', {
         this.items = [];
         this.memberButtons = {};
 
-        var memberTitles = {
-            cfg: "Configs",
-            property: "Properties",
-            method: "Methods",
-            event: "Events"
-        };
-        for (var type in memberTitles) {
-            var members = this.docClass.members[type];
-            var statics = this.docClass.statics[type];
-            if (members.length || statics.length) {
-                var btn = this.createMemberButton({
-                    text: memberTitles[type],
-                    type: type,
-                    members: members.concat(statics)
-                });
-                this.memberButtons[type] = btn;
-                this.items.push(btn);
-            }
-        }
 
-        if (this.docClass.subclasses.length) {
-            this.items.push(this.createClassListButton("Sub Classes", this.docClass.subclasses));
-        }
-        if (this.docClass.mixedInto.length) {
-            this.items.push(this.createClassListButton("Mixed Into", this.docClass.mixedInto));
-        }
-
+		// render all methods to the toolbar
+        var btn = this.createMemberButton({
+            text: "Methods",
+            type: "method",
+            members: this.docClass.method
+        });
+        this.memberButtons["method"] = btn;
+        this.items.push(btn);
+        
+        
+        
         this.items = this.items.concat([
             { xtype: 'tbspacer', width: 10 },
             this.filterField = Ext.widget("textfield", {
@@ -90,18 +75,6 @@ Ext.define('Docs.view.cls.Toolbar', {
                 }
             }),
             { xtype: 'tbfill' },
-            {
-                boxLabel: 'Hide inherited',
-                boxLabelAlign: 'before',
-                xtype: 'checkbox',
-                margin: '0 5 0 0',
-                padding: '0 0 5 0',
-                checked: Docs.Settings.get("hideInherited"),
-                handler: function(el) {
-                    this.fireEvent("hideInherited", el.checked);
-                },
-                scope: this
-            },
             {
                 xtype: 'button',
                 iconCls: 'expandAllMembers',
