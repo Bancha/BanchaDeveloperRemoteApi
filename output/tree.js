@@ -1,25 +1,43 @@
+
+
+
+// TODO build this from Bancha API
+
+
+
 Docs.classData = {
     "text": "API Documentation",
     "iconCls": "icon-docs",
     "id": "apidocs",
     "children": [{
-        "text": "User",
-        "iconCls": "icon-pkg",
-        "url": "/api/Bancha.data.Model",
+        "text": "Article",
+        "iconCls": "icon-crud-controller",
+        "url": "/controller/Article",
         "leaf": true
     }, {
-        "text": "Article",
-        "iconCls": "icon-pkg",
-        "url": "/api/Bancha.data.Model",
+        "text": "ArticlesTag",
+        "iconCls": "icon-crud-controller",
+        "url": "/controller/Article",
+        "leaf": true
+    }, {
+        "text": "Tag",
+        "iconCls": "icon-crud-remotable-controller",
+        "url": "/controller/Article",
+        "leaf": true
+    }, {
+        "text": "User",
+        "iconCls": "icon-crud-controller",
+        "url": "/controller/Article",
+        "leaf": true
+    }, {
+        "text": "HelloWorld",
+        "iconCls": "icon-remotable-controller",
+        "url": "/controller/HelloWorld",
+        "leaf": true
+    }, {
+        "text": "Hello",
+        "iconCls": "icon-remotable-controller",
+        "url": "/controller/HelloWorld",
         "leaf": true
     }]
 };
-
-
-/* propaply not needed
-Docs.icons = {
-    "/api/Bancha": "icon-singleton",
-    "/api/Bancha.data.Model": "icon-class",
-    "/api/Ext.data.validations": "icon-class"
-};
-*/

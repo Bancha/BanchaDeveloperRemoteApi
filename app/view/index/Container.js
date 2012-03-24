@@ -19,12 +19,11 @@ Ext.define('Docs.view.index.Container', {
             '<div class="section legend">',
                 '<h4>Legend</h4>',
                 '<ul>',
-                    '<li class="icon icon-singleton">Support for one or more standard CRUD methods</li>',
-                    '<li class="icon icon-component">Exposes non-CRUD controller methods</li>',
-                    '<li class="icon icon-pkg">Support both from above</li>',
+                    '<li class="icon icon-crud-controller">Support for one or more standard CRUD methods</li>',
+                    '<li class="icon icon-remotable-controller">Exposes non-CRUD controller methods</li>',
+                    '<li class="icon icon-crud-remotable-controller">Support both from above</li>',
                 '</ul>',
-            '</div>',
-            '{categories}'
+            '</div>'
         );
         this.data = this.extractData();
         

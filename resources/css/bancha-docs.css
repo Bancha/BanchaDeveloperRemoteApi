@@ -5,10 +5,17 @@
     line-height: 120%;
 }
 #center-container .class-list .section.legend {
-    display: inline-box;
     width: 80%;
     float:none;
 }
 #center-container .class-list .section.legend ul {
     float: none;
 }
+
+
+.x-tree-icon-leaf {
+	width: 20px;
+}
+.icon-crud-controller { background: url(../images/icons.png) no-repeat -3px -84px !important; }
+.icon-remotable-controller { background: url(../images/icons.png) no-repeat -3px -137px !important; }
+.icon-crud-remotable-controller { background: url(../images/icons.png) no-repeat -1px -219px !important; }

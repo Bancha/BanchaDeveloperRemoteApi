@@ -124,14 +124,8 @@ Ext.define('Docs.controller.Classes', {
         if (this.opensNewWindow(event)) {
             window.open("#"+url);
             view && view.selectUrl(this.activeUrl ? this.activeUrl : "");
-        }
-        else {
-            if (/^\/api\//.test(url)) {
-                this.loadClass(url);
-            }
-            else {
-                this.loadGuide(url);
-            }
+        } else {
+        	this.loadClass(url);
         }
     },
 
@@ -177,7 +171,7 @@ Ext.define('Docs.controller.Classes', {
         Ext.getCmp('card-panel').layout.setActiveItem(1);
 
         // separate class and member name
-        var matches = url.match(/^\/api\/(.*?)(?:-(.*))?$/);
+        var matches = url.match(/^\/controller\/(.*?)(?:-(.*))?$/);
         var cls = matches[1];
         var member = matches[2];
 
@@ -190,7 +184,7 @@ Ext.define('Docs.controller.Classes', {
             }
 
             Ext.data.JsonP.request({
-                url: this.getBaseUrl() + '/output/' + cls + '.js',
+                url: this.getBaseUrl() + '/bancha-controller-description/' + cls + '.js',
                 callbackName: cls.replace(/\./g, '_'),
                 success: function(json, opts) {
                     this.cache[cls] = json;
@@ -228,37 +222,6 @@ Ext.define('Docs.controller.Classes', {
     },
 
     /**
-     * Loads guide.
-     *
-     * @param {String} url  URL of the guide
-     * @param {Boolean} noHistory  true to disable adding entry to browser history
-     */
-    loadGuide: function(url, noHistory) {
-        if (this.activeUrl === url) return;
-        this.activeUrl = url;
-
-        noHistory || Docs.History.push(url);
-
-        var name = url.match(/^\/guide\/(.*)$/)[1];
-        Ext.data.JsonP.request({
-            url: this.getBaseUrl() + "/guides/" + name + "/README.js",
-            callbackName: name,
-            success: function(json) {
-                this.getViewport().setPageTitle(json.guide.match(/<h1>(.*)<\/h1>/)[1]);
-                Ext.getCmp("guide").update(json.guide);
-                Ext.getCmp('card-panel').layout.setActiveItem(2);
-                Docs.Syntax.highlight(Ext.get("guide"));
-                this.fireEvent('showGuide', name);
-                this.getTree().selectUrl(url);
-            },
-            failure: function(response, opts) {
-                this.showFailure("Guide <b>"+name+"</b> was not found.");
-            },
-            scope: this
-        });
-    },
-
-    /**
      * Displays page with 404 error message.
      * @param {String} msg
      * @private
@@ -282,7 +245,9 @@ Ext.define('Docs.controller.Classes', {
      * @return {String} URL
      */
     getBaseUrl: function() {
-        return document.location.href.replace(/#.*/, "").replace(/index.html/, "");
+    	var url = document.location.href.replace(/#.*/, "").replace(/index.html/, ""),
+    		cakeWebroot = url.substr(0,url.substr(0,url.length-1).lastIndexOf('/'));
+        return cakeWebroot;
     }
 
 });
