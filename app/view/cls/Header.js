@@ -11,12 +11,21 @@ Ext.define('Docs.view.cls.Header', {
 
     initComponent: function() {
         this.tpl = Ext.create('Ext.XTemplate',
-            '<h1 class="class" style="background: url(resources/images/header-icons/{type}.png) no-repeat 0 -8px">{name}',
+            '<h1 class="class" style="background: {[this.getTypeImage(values)]}">{name}',
                 '<tpl if="type !== \'remotable-controller\'">',
                     '<span>{[this.getCrudMethods(values.crud)]}</span>',
                 '</tpl>',
             '</h1>',
             {
+            	getTypeImage: function(values) {
+            		if(values.crud.length && values.remotable.length) {
+            			return 'url(resources/images/header-icons/crud-remotable-controller.png) no-repeat 18px 3px';
+            		}
+            		if(values.crud.length) {
+            			return 'url(resources/images/header-icons/crud-controller.png) no-repeat 8px 0';
+            		}
+            		return 'url(resources/images/header-icons/remotable-controller.png) no-repeat 0 -10px';
+            	},
                 getCrudMethods: function(methods) {
 					var supports = '',
 						create = false,
