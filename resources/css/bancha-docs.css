@@ -1,0 +1,14 @@
+/* start page styling */
+#center-container .api-intro {
+    font-size: 18px;
+    padding: 30px 20px 30px 0;
+    line-height: 120%;
+}
+#center-container .class-list .section.legend {
+    display: inline-box;
+    width: 80%;
+    float:none;
+}
+#center-container .class-list .section.legend ul {
+    float: none;
+}
