@@ -43,13 +43,19 @@ Ext.define('Docs.view.cls.Toolbar', {
 
         this.items = [];
         this.memberButtons = {};
-
-
+        
+		var methods = [];
+		if(this.docClass.crud) {
+			methods = this.docClass.crud;
+		}
+		if(this.docClass.remotable) {
+			methods = methods.concat(this.docClass.remotable);
+		}
 		// render all methods to the toolbar
         var btn = this.createMemberButton({
             text: "Methods",
             type: "method",
-            members: this.docClass.method
+            members: methods
         });
         this.memberButtons["method"] = btn;
         this.items.push(btn);
@@ -115,7 +121,6 @@ Ext.define('Docs.view.cls.Toolbar', {
         var data = Ext.Array.map(classes, function(cls) {
             return this.createLinkRecord(cls);
         }, this);
-
         return Ext.create('Docs.view.HoverMenuButton', {
             text: text,
             cls: 'icon-subclass',

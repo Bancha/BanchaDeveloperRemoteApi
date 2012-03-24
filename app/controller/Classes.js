@@ -172,6 +172,12 @@ Ext.define('Docs.controller.Classes', {
 
         // separate class and member name
         var matches = url.match(/^\/controller\/(.*?)(?:-(.*))?$/);
+        
+        // somewhere there is still old syntax, so quick fix that
+        if(!matches) {
+        	matches = url.match(/^\/api\/(.*?)(?:-(.*))?$/);
+        }
+        
         var cls = matches[1];
         var member = matches[2];
 

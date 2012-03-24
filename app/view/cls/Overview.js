@@ -49,9 +49,6 @@ Ext.define('Docs.view.cls.Overview', {
         this.toolbar = Ext.create('Docs.view.cls.Toolbar', {
             docClass: this.docClass,
             listeners: {
-                hideInherited: function(hideInherited) {
-                    this.filterMembers(this.toolbar.getFilterValue(), hideInherited);
-                },
                 filter: function(search) {
                     this.filterMembers(search, Docs.Settings.get("hideInherited"));
                 },
@@ -141,7 +138,7 @@ Ext.define('Docs.view.cls.Overview', {
 
     // Loops through each member of class
     eachMember: function(callback, scope) {
-        Ext.Array.forEach(['members', 'statics'], function(group) {
+        Ext.Array.forEach(['crud', 'remotable'], function(group) {
             Ext.Object.each(this.docClass[group], function(type, members) {
                 Ext.Array.forEach(members, callback, scope);
             }, this);
@@ -171,41 +168,25 @@ Ext.define('Docs.view.cls.Overview', {
     },
 
     renderMembers: function(cls) {
-        var sections = [
-            {type: "cfg", title: "Config options"},
-            {type: "property", title: "Properties"},
-            {type: "method", title: "Methods"},
-            {type: "event", title: "Events"}
-        ];
-
-        // Skip rendering empty sections
-        return Ext.Array.map(sections, function(sec) {
-            var members = cls.members[sec.type];
-            var statics = cls.statics[sec.type];
-            return (members.length > 0 || statics.length > 0) ? this.renderSection(members, statics, sec) : "";
-        }, this).join("");
+    	
+    	// only render the plain methods
+    	return this.renderSection(cls.crud, cls.remotable, {type: "method", title: "Methods"});
     },
 
     renderSection: function(members, statics, section) {
         this.sectionTpl = this.sectionTpl || new Ext.XTemplate(
             '<div id="m-{type}">',
-                '<tpl if="!statics.length">',
-                    '<div class="definedBy">Defined By</div>',
-                '</tpl>',
-                '<h3 class="members-title">{title}</h3>',
                 '<tpl if="members.length">',
                     '<div class="subsection">',
                         '<tpl if="statics.length">',
-                            '<div class="definedBy">Defined By</div>',
-                            '<h4 class="members-subtitle">Instance {title}</h3>',
+                            '<h4 class="members-subtitle">CRUD methods</h3>',
                         '</tpl>',
                         '{members}',
                     '</div>',
                 '</tpl>',
                 '<tpl if="statics.length">',
                     '<div class="subsection">',
-                        '<div class="definedBy">Defined By</div>',
-                        '<h4 class="members-subtitle">Static {title}</h3>',
+                        '<h4 class="members-subtitle">Remotable methods</h3>',
                         '{statics}',
                     '</div>',
                 '</tpl>',
@@ -222,17 +203,13 @@ Ext.define('Docs.view.cls.Overview', {
 
     renderMemberDiv: function(member, index) {
         this.memberTpl = this.memberTpl || new Ext.XTemplate(
-            '<div id="{tagname}-{name}" class="member {firstChild} {inherited}">',
+            '<div id="{tagname}-{name}" class="member {firstChild}">',
                 // leftmost column: expand button
                 '<a href="#" class="side {expandable}">',
                     '<span>&nbsp;</span>',
                 '</a>',
                 // member name and type + link to owner class and source
                 '<div class="title">',
-                    '<div class="meta">',
-                        '<a href="#/api/{owner}" rel="{owner}" class="definedIn docClass">{owner}</a><br/>',
-                        '<a href="source/{href}" target="_blank" class="viewSource">view source</a>',
-                    '</div>',
                     '{signature}',
                 '</div>',
                 // short and long descriptions

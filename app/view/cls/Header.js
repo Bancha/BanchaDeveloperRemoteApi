@@ -11,10 +11,9 @@ Ext.define('Docs.view.cls.Header', {
 
     initComponent: function() {
         this.tpl = Ext.create('Ext.XTemplate',
-            '<h1 class="class">',
-                '<img src="resources/images/header-icons/{type}.png">{name}</a>',
+            '<h1 class="class" style="background: url(resources/images/header-icons/{type}.png) no-repeat 0 -8px">{name}',
                 '<tpl if="type !== \'remotable-controller\'">',
-                    '<span>{[this.getCrudMethods(values.method)]}</span>',
+                    '<span>{[this.getCrudMethods(values.crud)]}</span>',
                 '</tpl>',
             '</h1>',
             {
@@ -25,6 +24,10 @@ Ext.define('Docs.view.cls.Header', {
 						update = false,
 						destroy = false;
 
+					if(methods.length===0) {
+						return '';
+					}
+					
 					// iterate through all methods
 					for(var method in methods) {
 						if(methods.hasOwnProperty(method)) {
