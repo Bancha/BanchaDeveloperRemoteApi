@@ -151,7 +151,6 @@ Ext.define('Docs.view.cls.Overview', {
     renderClass: function(cls) {
         this.classTpl = this.classTpl || new Ext.XTemplate(
             '<div>',
-                '{hierarchy}',
                  '<div class="doc-contents">',
                     '{doc}',
                 '</div>',
@@ -163,61 +162,7 @@ Ext.define('Docs.view.cls.Overview', {
 
         return this.classTpl.apply({
             doc: cls.doc,
-            hierarchy: this.renderHierarchy(cls),
             members: this.renderMembers(cls)
-        });
-    },
-
-    renderHierarchy: function(cls) {
-        if (cls.superclasses.length === 0 && cls.allMixins.length === 0 && cls.alternateClassNames.length === 0) {
-            return "";
-        }
-
-        this.hierarchyTpl = this.hierarchyTpl || new Ext.XTemplate(
-            '<pre class="hierarchy">',
-            '<tpl if="alternateClassNames.length &gt; 0">',
-                '<h4>Alternate names</h4>',
-                '<tpl for="alternateClassNames">',
-                    '<div class="alternate-class-name">{.}</div>',
-                '</tpl>',
-            '</tpl>',
-            '<tpl if="tree">',
-                '<h4>Hierarchy</h4>',
-                '{tree}',
-            '</tpl>',
-            '<tpl if="mixins.length &gt; 0">',
-                '<h4>Mixins</h4>',
-                '<tpl for="mixins">',
-                    '<div class="mixin">{.}</div>',
-                '</tpl>',
-            '</tpl>',
-            '</pre>'
-        );
-
-        return this.hierarchyTpl.apply({
-            tree: cls.superclasses.length ? this.renderClassTree(cls.superclasses.concat(cls.name), true) : "",
-            mixins: Ext.Array.map(cls.allMixins, this.renderLink, this),
-            alternateClassNames: cls.alternateClassNames
-        });
-    },
-
-    renderClassTree: function(superclasses, firstChild) {
-        if (superclasses.length === 0) {
-            return "";
-        }
-
-        this.classTreeTpl = this.classTreeTpl || new Ext.XTemplate(
-            '<div class="subclass {firstChild}">',
-              '{link}',
-              '{subtree}',
-            '</div>'
-        );
-
-        var name = superclasses[0];
-        return this.classTreeTpl.apply({
-            firstChild: firstChild ? 'first-child' : '',
-            link: superclasses.length > 1 ? this.renderLink(name) : '<strong>'+name+'</strong>',
-            subtree: this.renderClassTree(superclasses.slice(1))
         });
     },
 
