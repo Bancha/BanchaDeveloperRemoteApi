@@ -11,26 +11,45 @@ Ext.define('Docs.view.cls.Header', {
 
     initComponent: function() {
         this.tpl = Ext.create('Ext.XTemplate',
-            '<h1 class="{[this.getClass(values)]}">',
-                '<tpl if="private">',
-                    '<span class="private">Private</span>',
-                '</tpl>',
-                '<a href="source/{href}" target="_blank">{name}</a>',
-                '<tpl if="xtypes.length &gt; 0">',
-                    '<span>xtype: {[values.xtypes.join(", ")]}</span>',
+            '<h1 class="class">',
+                '<img src="resources/images/header-icons/{type}.png">{name}</a>',
+                '<tpl if="type !== \'remotable-controller\'">',
+                    '<span>{[this.getCrudMethods(values.method)]}</span>',
                 '</tpl>',
             '</h1>',
             {
-                getClass: function(cls) {
-                    if (cls.component) {
-                        return "component";
+                getCrudMethods: function(methods) {
+					var supports = '',
+						create = false,
+						read = false,
+						update = false,
+						destroy = false;
+
+					// iterate through all methods
+					for(var method in methods) {
+						if(methods.hasOwnProperty(method)) {
+                    		if (methods[method].name === 'create')  create = true;
+                    		if (methods[method].name === 'read')    read = true;
+                    		if (methods[method].name === 'update')  update = true;
+                    		if (methods[method].name === 'destroy') destroy = true;
+                    	}
                     }
-                    else if (cls.singleton) {
-                        return "singleton";
+                    
+                    // make a nice, ordered output
+                    if (create) {
+                        supports += "Create ";
                     }
-                    else {
-                        return "class";
+                    if (read) {
+                        supports += "Read ";
                     }
+                    if (update) {
+                        supports += "Update ";
+                    }
+                    if (destroy) {
+                        supports += "Destroy ";
+                    }
+
+                    return supports;
                 }
             }
         );
