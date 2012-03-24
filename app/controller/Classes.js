@@ -206,7 +206,7 @@ Ext.define('Docs.controller.Classes', {
 
             this.getOverview().setLoading(false);
 
-            this.getTree().selectUrl("/api/"+cls.name);
+            this.getTree().selectUrl("/controller/"+cls.name);
             this.fireEvent('showClass', cls.name);
         }
 
