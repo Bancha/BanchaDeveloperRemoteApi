@@ -35,3 +35,29 @@ Docs.classData = {
     "id": "apidocs",
     "children": classes
 };
+
+
+// build search data, add controller
+var searchData = Ext.Array.map(classes, function(el) {
+	return {
+        "type": "cls", /* defined the icon */
+        "member": el.text, /* display text */
+        "cls": "", /* controller description */
+        "xtypes": []
+	}
+});
+
+Ext.Object.each(Bancha.REMOTE_API.actions, function(className,methods) {
+	Ext.Array.each(methods, function(method) {
+		searchData.push({
+        	"type": "property",
+        	"member": method.name,
+        	"cls": className+'.'+method.name+(method.formHandler ? ' @formHandler' : ''),
+        	"xtypes": []
+      	});
+	});
+});
+
+Docs.searchData = {
+    "data": searchData
+};
