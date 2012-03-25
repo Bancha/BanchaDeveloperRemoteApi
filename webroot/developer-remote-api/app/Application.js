@@ -7,7 +7,8 @@
 Ext.define('Docs.Application', {
     extend: 'Ext.app.Application',
     name: 'Docs',
-
+	appFolder: 'developer-remote-api/app',
+	
     requires: [
         'Docs.History',
         'Docs.Settings'

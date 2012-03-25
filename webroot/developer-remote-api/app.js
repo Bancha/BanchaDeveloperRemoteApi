@@ -3,7 +3,7 @@ Ext.ns("Docs");
 Ext.Loader.setConfig({
     enabled: true,
     paths: {
-        'Docs': 'app'
+        'Docs': 'developer-remote-api/app'
     }
 });
 
