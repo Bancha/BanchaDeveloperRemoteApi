@@ -22,7 +22,7 @@ Ext.define('Docs.view.cls.Header', {
             			return 'url(resources/images/header-icons/crud-remotable-controller.png) no-repeat 18px 3px';
             		}
             		if(values.crud.length) {
-            			return 'url(resources/images/header-icons/crud-controller.png) no-repeat 8px 0';
+            			return 'url(resources/images/header-icons/crud-controller.png) no-repeat 8px -8px';
             		}
             		return 'url(resources/images/header-icons/remotable-controller.png) no-repeat 0 -10px';
             	},

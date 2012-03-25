@@ -148,7 +148,8 @@ Ext.define('Docs.view.cls.Overview', {
     renderClass: function(cls) {
         this.classTpl = this.classTpl || new Ext.XTemplate(
             '<div>',
-                 '<div class="doc-contents">',
+            	'<i style="padding-left:10px;">Author: {author}</i>',
+                '<div class="doc-contents">',
                     '{doc}',
                 '</div>',
                 '<div class="members">',
@@ -159,7 +160,8 @@ Ext.define('Docs.view.cls.Overview', {
 
         return this.classTpl.apply({
             doc: cls.doc,
-            members: this.renderMembers(cls)
+            members: this.renderMembers(cls),
+            author: cls.author
         });
     },
 
@@ -273,7 +275,13 @@ Ext.define('Docs.view.cls.Overview', {
         if (member.deprecated) {
             cfg.after = "<strong class='deprecated-signature'>deprecated</strong>";
         }
-
+        if (member.mappedFrom) {
+            cfg.after = "<strong class='deprecated-signature'>Mapped from "+member.mappedFrom+"</strong>";
+        }
+        if (member.formHandler) {
+            cfg.after = "<strong class='deprecated-signature'>@formHandler</strong>";
+        }
+		
         return this.signatureTpl.apply(cfg);
     },
 
