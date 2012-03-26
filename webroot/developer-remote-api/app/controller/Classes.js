@@ -171,12 +171,7 @@ Ext.define('Docs.controller.Classes', {
         Ext.getCmp('card-panel').layout.setActiveItem(1);
 
         // separate class and member name
-        var matches = url.match(/^\/controller\/(.*?)(?:-(.*))?$/);
-        
-        // somewhere there is still old syntax, so quick fix that
-        if(!matches) {
-        	matches = url.match(/^\/api\/(.*?)(?:-(.*))?$/);
-        }
+        matches = url.match(/^\/api\/(.*?)(?:-(.*))?$/);
         
         var cls = matches[1];
         var member = matches[2];
@@ -212,7 +207,7 @@ Ext.define('Docs.controller.Classes', {
 
             this.getOverview().setLoading(false);
 
-            this.getTree().selectUrl("/controller/"+cls.name);
+            this.getTree().selectUrl("/api/"+cls.name);
             this.fireEvent('showClass', cls.name);
         }
 

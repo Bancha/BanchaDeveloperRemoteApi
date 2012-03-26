@@ -30,7 +30,7 @@ Ext.Object.each(Bancha.REMOTE_API.actions, function(className,methods) {
     classes.push({
         text: className,
         iconCls: 'icon-'+type,
-        url: '/controller/'+className,
+        url: '/api/'+className,
         leaf: true
      });
 });
