@@ -17,17 +17,16 @@ Features:
 
 ![Bancha Developer Remote API Screenshot](http://docs.banchaproject.com/wiki/images/BanchaDeveloperRemoteApi-screenshot.jpg)
 
-How to setup the project:
----------------------
+How to setup the project
+------------------------
 Asuming you already use Bancha (1.0 Release Candidate or later) on the site, just copy this plugin into _Plugin/_ or _app/Plugin/_ and add following line to your _app/Config/bootstrap.php_:
 
     CakePlugin::load(array('BanchaDeveloperRemoteApi' => array('routes' => true))); 
 
 
----
 
-More information about Bancha:
------------------
+More information about Bancha
+-----------------------------
 
 *   [Bancha Overview](http://banchaproject.com/)
 *   [Updates on Twitter](http://twitter.com/#!/banchaproject)

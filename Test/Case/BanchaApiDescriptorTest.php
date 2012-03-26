@@ -45,7 +45,20 @@ require_once($vendor_path.'phpDocumentor2'.DS.'src'.DS.'markdown.php');
 App::uses('BanchaApi', 'Bancha.Bancha'); //extends BanchaAPi
 App::uses('DocCommentHelper', 'BanchaDeveloperRemoteApi.BanchaDeveloperRemoteApi');
 App::uses('BanchaApiDescriptor', 'BanchaDeveloperRemoteApi.BanchaDeveloperRemoteApi');
+    
+require_once('test_controller.php');
 
+/**
+ * Once overrides the load method for clean testing
+ */
+class BanchaApiDescriptorTestClass extends BanchaApiDescriptor {
+	protected function loadController($controllerClass) {	
+        // don't load class from file, expect it to be laoded
+        if (!class_exists($controllerClass)) {
+			throw new MissingControllerExceptionarray(array('class' => $controllerClass));
+		}
+	}
+}
 
 /**
  * BanchaApiDescriptiorTest
@@ -60,7 +73,7 @@ class BanchaApiDescriptorTest extends CakeTestCase {
         
 		// since only one function is public we get the full result
 		// and then evaluate separate
-		$api = new BanchaApiDescriptor();
+		$api = new BanchaApiDescriptorTestClass();
 		$this->result = $api->getRemoteApiClassDescription('User');
 		
     }
