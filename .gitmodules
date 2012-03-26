@@ -1,3 +1,4 @@
 [submodule "Vendor/phpDocumentor2"]
 	path = Vendor/phpDocumentor2
 	url = git://github.com/phpDocumentor/phpDocumentor2.git
+	update = checkout
