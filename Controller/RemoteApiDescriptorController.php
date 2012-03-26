@@ -22,23 +22,28 @@ App::import('Controller', 'BanchaDeveloperRemoteApi.BanchaDeveloperRemoteApiApp'
 App::uses('BanchaApi', 'Bancha.Bancha'); //extends BanchaAPi
 
 // uses DocCommentHelper, a decorator for phpDocumentor2
-$base_path = App::pluginPath('BanchaDeveloperRemoteApi').'Vendor'.DS.'phpDocumentor2'.DS.'src'.DS.'phpDocumentor'.DS.'Reflection'.DS;
+$vendor_path = App::pluginPath('BanchaDeveloperRemoteApi').'Vendor'.DS;
+$base_path = $vendor_path.'phpDocumentor2'.DS.'src'.DS.'phpDocumentor'.DS.'Reflection'.DS;
+
 // App::import('Vendor', 'DocBlock', array('file' => $base_path.'DocBlock.php'));
 require_once($base_path.'DocBlock.php');
-require_once($base_path.'DocBlock/LongDescription.php');
-require_once($base_path.'DocBlock/Tag.php');
-require_once($base_path.'DocBlock/Tag/Link.php');
-require_once($base_path.'DocBlock/Tag/Param.php');
-require_once($base_path.'DocBlock/Tag/Method.php');
-require_once($base_path.'DocBlock/Tag/Property.php');
-require_once($base_path.'DocBlock/Tag/PropertyRead.php');
-require_once($base_path.'DocBlock/Tag/PropertyWrite.php');
-require_once($base_path.'DocBlock/Tag/Return.php');
-require_once($base_path.'DocBlock/Tag/See.php');
-require_once($base_path.'DocBlock/Tag/Throws.php');
-require_once($base_path.'DocBlock/Tag/Throw.php');
-require_once($base_path.'DocBlock/Tag/Uses.php');
-require_once($base_path.'DocBlock/Tag/Var.php');
+require_once($base_path.'DocBlock'.DS.'LongDescription.php');
+require_once($base_path.'DocBlock'.DS.'Tag.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Link.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Param.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Method.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Property.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'PropertyRead.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'PropertyWrite.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Return.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'See.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Throws.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Throw.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Uses.php');
+require_once($base_path.'DocBlock'.DS.'Tag'.DS.'Var.php');
+
+// add markdown support
+require_once($vendor_path.'phpDocumentor2'.DS.'src'.DS.'markdown.php');
 
 App::uses('DocCommentHelper', 'BanchaDeveloperRemoteApi.BanchaDeveloperRemoteApi');
 App::uses('BanchaApiDescriptor', 'BanchaDeveloperRemoteApi.BanchaDeveloperRemoteApi');
