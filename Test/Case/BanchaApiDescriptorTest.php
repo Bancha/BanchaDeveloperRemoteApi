@@ -132,23 +132,23 @@ class BanchaApiDescriptorTest extends CakeTestCase {
 		//getAll has no params
 		$params = $this->result['crud'][0]['params'];
 		$this->assertEquals(0, count($params));
-		
-		//view has one param
-		$params = $this->result['crud'][1]['params'];
-		$this->assertEquals(1, count($params));
-		$this->assertEquals('id', $params[0]['name']);
-		$this->assertEquals(true, $params[0]['optional']);
-		$this->assertEquals('string', $params[0]['type']);
-		$this->assertEquals('this is the id param description', $params[0]['doc']);
-		
+				
 		//delete has one param and no docs
 		$params = $this->result['crud'][4]['params'];
 		$this->assertEquals(1, count($params));
 		$this->assertEquals('id', $params[0]['name']);
-		$this->assertEquals(true, $params[0]['optional']);
+		$this->assertEquals(false, $params[0]['optional']);
 		$this->assertEquals('NotProvided', $params[0]['type']);
 		$this->assertEquals('', $params[0]['doc']);
 		
+		// anyFunction has one param
+		$params = $this->result['remotable'][0]['params'];
+		$this->assertEquals(1, count($params));
+		$this->assertEquals('anyParam', $params[0]['name']);
+		$this->assertEquals(true, $params[0]['optional']);
+		$this->assertEquals('string', $params[0]['type']);
+		$this->assertEquals('This is the special any param.', $params[0]['doc']);
+
 		
 		// check return descriptions for index
 		$return = $this->result['crud'][0]['return'];

@@ -172,8 +172,9 @@
          * This custom function is just for the BanchaDevelopmerRemoteApi tool 
          * as showcase for a Controller including both CRUD and @banchaRemotable
          * methods.
+         * @param string $anyParam This is the special any param.
          */
-        public function anyFunction($anyParam) {
+        public function anyFunction($anyParam=null) {
             return null;
         }
         

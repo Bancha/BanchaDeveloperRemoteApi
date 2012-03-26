@@ -84,7 +84,24 @@ class BanchaApiDescriptor extends BanchaApi {
 			}
 			
 			// parse data and add description
-			$crudDescriptions[] = $this->getRemoteApiMethodDescription($controllerClass,$method,$this->crudMapping[$method->name]['name']);
+			$crudDescription = $this->getRemoteApiMethodDescription($controllerClass,$method,$this->crudMapping[$method->name]['name']);
+            
+            // adopt to mapping for stores
+            if('view' === $method->name) {
+                $crudDescription['params'][0]['name'] = 'extFilterData';
+                $crudDescription['params'][0]['type'] = 'Array';
+            }
+            if('edit' === $method->name) {
+                $crudDescription['params'][0]['name'] = 'recordData';
+                $crudDescription['params'][0]['type'] = 'Array';
+                $crudDescription['params'][0]['optional'] = false;
+            }
+            if('delete' === $method->name) {
+                $crudDescription['params'][0]['optional'] = false;
+            }
+            
+            // add
+            $crudDescriptions[] = $crudDescription;
 		}
 
 		// If this controller supports a form handler submit, add it to the crud actions.
@@ -97,7 +114,7 @@ class BanchaApiDescriptor extends BanchaApi {
 				'doc'			=> 'This function can be used in forms to submit data and files.'.
 								   '<p>If an id is provided it will be applied to add from above, '.
 								   'otherwise to edit. Please see this for more information</p>',
-				'params'		=> array( array( 'type' => 'NotProvided', 'doc' => 'See add or edit.', 'optional'=>true,'name'=>'id')),
+				'params'		=> array(),
 				'return'		=> array( 'type' => 'NotProvided', 'doc' => 'See add or edit.'),
 				'linenr'		=> 0
 			));
