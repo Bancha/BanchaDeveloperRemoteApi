@@ -126,9 +126,7 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 				'default'	=> $this->getDefaultValue($param)
 			);
 		}
-		
-		pr($params);
-		
+				
 		return $params;
 	}
 	

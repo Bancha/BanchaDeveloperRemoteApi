@@ -29,104 +29,38 @@ class BanchaApiDescriptor extends BanchaApi {
 	 */
 	public function getRemoteApiClassDescription($stubsName) {
 		$controllerClass = $this->getControllerClassByModelClass($stubsName);
+		$reflectionClass = new ReflectionClass($controllerClass);
 		
 		$description = array(
-			'name'  => $stubsName,
-			'crud'  => $this->getRemoteApiCrudDescription($controllerClass),
+			'name'		=> $stubsName,
+			'crud'		=> $this->getRemoteApiCrudDescription($controllerClass),
+			'remotable'	=> $this->getRemoteApiRemoteControllerMethodsDescription($reflectionClass),
 		);
 		
 		// add the class description
-		$description = array_merge($description, $this->getClassDescription($controllerClass));
+		$description = array_merge($description, $this->getClassDescription($reflectionClass));
 		
-		pr($description);
-		exit();
-		
-		/*
-			'crud' => array(
-				array(
-					"return" => array(
-						"type" => "Boolean",
-						"doc" => "<p>Returns true is model was created successfully</p>\n"
-					),
-					"params" => array(
-						array(
-							"type" => "String",
-							"doc" => "<p>The name of the model</p>\n",
-							"optional" => false,
-							"name" => "modelName"
-						),array(
-							"type" => "Object",
-							"doc" => "<p>A standard Ext.data.Model config object</p>\n\n<pre><code> In ExtJS this will be directly applied.\n In Sencha Touch this iwll be applied to the config property.\n</code></pre>\n",
-							"optional" => false,
-							"name" => "modelConfig"
-						)
-					),
-					"doc" => "<p>This method creates a <a href=\"#/api/Bancha.data.Model\" rel=\"Bancha.data.Model\" class=\"docClass\">Bancha.data.Model</a> with your additional model configs,\nif you don't have any additional configs just use the convienience method <a href=\"#/api/Bancha-method-getModel\" rel=\"Bancha-method-getModel\" class=\"docClass\">getModel</a>.</p>\n\n<p>In the debug version it will raise an Ext.Error if the model can't be\nor is already created, in production it will only return false.</p>\n",
-					"tagname" => "method",
-					"shortDoc" => "This method creates a Bancha.data.Model with your additional model configs,\nif you don't have any additional configs ...",
-					"name" => 'create',
-					"filename" => "C:\\Users\\Roland\\Win-Mac Sharing\\Bancha Release\\app/Plugin/Bancha/webroot/js/Bancha.js",
-					"linenr" => 779,
-				),
-			),
-			'remotable' => array(
-				array(
-					"return" => array(
-						"type" => "Boolean",
-						"doc" => "<p>Returns true is model was created successfully</p>\n"
-					),
-					"params" => array(
-						array(
-							"type" => "String",
-							"doc" => "<p>The name of the model</p>\n",
-							"optional" => false,
-							"name" => "modelName"
-						),array(
-							"type" => "Object",
-							"doc" => "<p>A standard Ext.data.Model config object</p>\n\n<pre><code> In ExtJS this will be directly applied.\n In Sencha Touch this iwll be applied to the config property.\n</code></pre>\n",
-							"optional" => false,
-							"name" => "modelConfig"
-						)
-					),
-					"deprecated" => null,
-					"doc" => "<p>This method creates a <a href=\"#/api/Bancha.data.Model\" rel=\"Bancha.data.Model\" class=\"docClass\">Bancha.data.Model</a> with your additional model configs,\nif you don't have any additional configs just use the convienience method <a href=\"#/api/Bancha-method-getModel\" rel=\"Bancha-method-getModel\" class=\"docClass\">getModel</a>.</p>\n\n<p>In the debug version it will raise an Ext.Error if the model can't be\nor is already created, in production it will only return false.</p>\n",
-					"html_filename" => "Bancha.html",
-					"owner" => "Bancha",
-					"tagname" => "method",
-					"alias" => null,
-					"static" => false,
-					"protected" => false,
-					"inheritable" => false,
-					"private" => false,
-					"shortDoc" => "This method creates a Bancha.data.Model wityour additional model configs,\nif you don't have any additional configs ...",
-					"name" => 'someRemotable',
-					"filename" => "C:\\Users\\Roland\\Win-Mac Sharing\\Bancha Release\\app/Plugin/Bancha/webroot/js/Bancha.js",
-					"linenr" => 779,
-					"href" => "Bancha.html#Bancha-method-createModel"
-				),
-			),
-		);
-		*/
-
+		return $description;
 	}
 
 	/**
 	 * Loads all class descriptions
-	 * @param string $controllerClass controller class name
+	 * @param ReflectionClass $reflectionClass controller class
 	 */
-	protected function getClassDescription($controllerClass) {
-		$reflection = new ReflectionClass($controllerClass);
-		$docComment = new DocCommentHelper($reflection->getDocComment());
+	protected function getClassDescription($reflectionClass) {
+		$docComment = new DocCommentHelper($reflectionClass->getDocComment());
 		
 		return array(
-			"filename" => $reflection->getFileName(),
+			'shortDoc'		=> $docComment->getShortDoc(),
+			'doc'			=> $docComment->getLongDoc(),
+			
+			"filename" => $reflectionClass->getFileName(),
 			"author" => $docComment->getFormatedAuthor(),
 		);
 	}
 	
 	/**
 	 * Loads all crud method phpdoc information about a specific controller
-	 * Used for https://github.com/Bancha/BanchaDeveloperRemoteApi
 	 * 
 	 * @param string $controllerClass The class name of the controller to reflect on
 	 * @return crud method descriptions in a jsduck-similar way
@@ -135,10 +69,14 @@ class BanchaApiDescriptor extends BanchaApi {
 		$methods = $this->getClassMethods($controllerClass);
 
 		$addFormHandler = false;
+		$crudDescription_editIndex = 0;
 		$crudDescriptions = array();
 		foreach ($methods as $method) {
 			if ('add' === $method->name || 'edit' == $method->name) {
 				$addFormHandler = true;
+				if('edit' == $method->name) {
+					$crudDescription_editIndex = count($crudDescriptions)+1;
+				}
 			}
 			
 			if(!isset($this->crudMapping[$method->name])) {
@@ -146,54 +84,77 @@ class BanchaApiDescriptor extends BanchaApi {
 			}
 			
 			// parse data and add description
-			if('edit'== $method->name) {
-			$crudDescriptions[] = $this->getRemoteApiMethodDescription($controllerClass,$method);
-			pr($crudDescriptions); exit();
-			}
+			$crudDescriptions[] = $this->getRemoteApiMethodDescription($controllerClass,$method,$this->crudMapping[$method->name]['name']);
 		}
 
 		// If this controller supports a form handler submit, add it to the crud actions.
 		if ($addFormHandler) {
-			$crudDescriptions[] = array(
+			$submit = array_merge($crudDescriptions[$crudDescription_editIndex],array( // take edit as template
 				'name'			=> 'submit',
-				'len' 			=> 1,
+				'mappedFrom' 	=> $controllerClass.'::add/edit',
 				'formHandler'	=> true,
-			);
+				'shortDoc'		=> 'This function can be used in forms to submit data and files.',
+				'doc'			=> 'This function can be used in forms to submit data and files.'.
+								   '<p>If an id is provided it will be applied to add from above, '.
+								   'otherwise to edit. Please see this for more information</p>',
+				'params'		=> array( array( 'type' => 'NotProvided', 'doc' => 'See add or edit.', 'optional'=>true,'name'=>'id')),
+				'return'		=> array( 'type' => 'NotProvided', 'doc' => 'See add or edit.'),
+				'linenr'		=> 0
+			));
+			
+			$crudDescriptions[] = $submit;
 		}
-
-		// reflect php and add data
-		$crudDescriptions[0] = array_merge($crudDescriptions[0], $this->processMethodPHPDoc($methods[0]));
-		
-		
-		// ReflectioNMethod:
-		// ReflectionFunctionAbstract::getFileName 
-		// public int ReflectionFunctionAbstract::getStartLine 
 		
 		return $crudDescriptions;
-		
 	}
 
 	/**
+	 * Loads all with @banchaRemotable marked methods and their phpdoc information from a specific controller
+	 * 
+	 * @param ReflectionClass $reflectionClass controller class
+	 * @return crud method descriptions in a jsduck-similar way
+	 */
+	protected function getRemoteApiRemoteControllerMethodsDescription($reflectionClass) {
+		$remotableDescriptions = array();
+		
+		foreach ($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+			if (preg_match('/@banchaRemotable/', $method->getDocComment())) {
+				
+				$remotableDescriptions[] = $this->getRemoteApiMethodDescription($reflectionClass->name,$method,$method->name);
+			}
+		}
+		
+		return $remotableDescriptions;
+	}
+	
+	
+	
+	
+	/**
 	 * Builds the method description array for $method
 	 * 
-	 * @param ReflectionMethod $method
+	 * @param String		   $controllerClass the name of the controller class
+	 * @param ReflectionMethod $method the method to reflect on
+	 * @param String		   $mappedTo the client side name
 	 */
-	protected function getRemoteApiMethodDescription($controllerClass,$method) {
-		// that's how it looks for the client
-		$clientMethod = $this->crudMapping[$method->name];
+	protected function getRemoteApiMethodDescription($controllerClass,$method,$mappedTo) {
 			
 		$docComment = new DocCommentHelper($method->getDocComment());
 		
 		return array(
-			'name'			=> $clientMethod['name'],
-			'mappedfrom'	=> $controllerClass.'::'.$method->name,
+			'name'			=> $mappedTo,
+			'mappedFrom'	=> $controllerClass.'::'.$method->name,
 			'tagname'		=> 'method',
+			'formHandler'	=> false,
 			
 			'shortDoc'		=> $docComment->getShortDoc(),
 			'doc'			=> $docComment->getLongDoc(),
 			
 			'return'		=> $docComment->getReturn(),
-			'params'		=> $docComment->getParams($method)
+			'params'		=> $docComment->getParams($method),
+			
+			'filename'		=> $method->getFileName(),
+			'linenr'		=> $method->getStartLine(),
 		);
 	}
 }
