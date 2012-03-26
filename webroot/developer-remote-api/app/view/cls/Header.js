@@ -11,21 +11,25 @@ Ext.define('Docs.view.cls.Header', {
 
     initComponent: function() {
         this.tpl = Ext.create('Ext.XTemplate',
-            '<h1 class="class" style="background: {[this.getTypeImage(values)]}">',
+            '<h1 class="class" style="background: url(developer-remote-api/resources/images/header-icons/{[this.getTypeImage(values)]}) no-repeat 18px 3px">',
             	'<a href="../bancha-file-viewer/{name}" target="_blank">{name}</a>',
+                '<span>',
                 '<tpl if="crud.length !== 0">',
-                    '<span>{[this.getCrudMethods(values.crud)]}</span>',
+                    '{[this.getCrudMethods(values.crud)]}',
+                '</tpl>',
+                '<tpl if="author">',
+            		'<span class="author">by {author}</span>',
                 '</tpl>',
             '</h1>',
             {
             	getTypeImage: function(values) {
             		if(values.crud.length && values.remotable.length) {
-            			return 'url(developer-remote-api/resources/images/header-icons/crud-remotable-controller.png) no-repeat 18px 3px';
+            			return 'crud-remotable-controller.png';
             		}
             		if(values.crud.length) {
-            			return 'url(developer-remote-api/resources/images/header-icons/crud-controller.png) no-repeat 8px -8px';
+            			return 'crud-controller.png';
             		}
-            		return 'url(developer-remote-api/resources/images/header-icons/remotable-controller.png) no-repeat 0 -10px';
+            		return 'remotable-controller.png';
             	},
                 getCrudMethods: function(methods) {
 					var supports = '',

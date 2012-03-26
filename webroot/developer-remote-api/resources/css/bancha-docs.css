@@ -20,3 +20,18 @@
 .icon-crud-controller { background: url(../images/icons.png) no-repeat -3px -84px !important; }
 .icon-remotable-controller { background: url(../images/icons.png) no-repeat -3px -137px !important; }
 .icon-crud-remotable-controller { background: url(../images/icons.png) no-repeat -1px -219px !important; }
+
+
+/* class rendering */
+#center-container h1.class .author {
+	font-size: 10px;
+}
+#center-container h1.class .author a {
+	color: #929292;
+	margin-left: 0;
+	padding: 0;
+	background: 0;
+}
+#center-container h1.class .author a:hover {
+	text-decoration: underline;
+}

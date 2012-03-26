@@ -148,7 +148,6 @@ Ext.define('Docs.view.cls.Overview', {
     renderClass: function(cls) {
         this.classTpl = this.classTpl || new Ext.XTemplate(
             '<div>',
-            	'<i style="padding-left:10px;">Author: {author}</i>',
                 '<div class="doc-contents">',
                     '{doc}',
                 '</div>',
@@ -160,8 +159,7 @@ Ext.define('Docs.view.cls.Overview', {
 
         return this.classTpl.apply({
             doc: cls.doc,
-            members: this.renderMembers(cls),
-            author: cls.author
+            members: this.renderMembers(cls)
         });
     },
 
@@ -275,11 +273,8 @@ Ext.define('Docs.view.cls.Overview', {
         if (member.deprecated) {
             cfg.after = "<strong class='deprecated-signature'>deprecated</strong>";
         }
-        if (member.mappedFrom) {
-            cfg.after = "<strong class='deprecated-signature'>Mapped from "+member.mappedFrom+"</strong>";
-        }
         if (member.formHandler) {
-            cfg.after = "<strong class='deprecated-signature'>@formHandler</strong>";
+            cfg.after = "<strong class='static-signature'>@formHandler</strong>";
         }
 		
         return this.signatureTpl.apply(cfg);
@@ -293,6 +288,12 @@ Ext.define('Docs.view.cls.Overview', {
     renderLongDoc: function(member) {
         var doc = member.doc;
 
+		// mapping and author
+        doc += 'Mapped from CakePHP: '+member.mappedFrom;
+        if(member.author) {
+        	doc += '<br />Author: '+member.author;
+        }
+        
         if (member.deprecated) {
             var v = member.deprecated.version ? "since " + member.deprecated.version : "";
             doc += '<div class="deprecated">';
