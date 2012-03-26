@@ -56,12 +56,23 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 	 * Returns the doc preview
 	 */
 	public function getShortDoc() {
-		$longDocWithoutFirstLine = $this->getLongDescription()->getFormattedContents();
+		$longDocWithoutFirstLine = $this->getLongDescription()->getContents();
+        
+        // if first block is longer then 100 chars trim
+        $desc = $this->getShortDescription();
+        if(strlen($desc) > 100) {
+            $desc = substr($desc,0,100);
+            // stop at a full word
+            $end = strrpos($desc,' ');
+            $end = $end==False ? 100 : $end;
+            return substr($desc,0,$end).' ...';
+        }
+        
 		if(empty($longDocWithoutFirstLine)) {
-			return $this->getShortDescription();
+			return $desc;
 		}
 		
-		return $this->getShortDescription().' ...';
+		return $desc.' ...';
 	}
 	
 	/**
@@ -76,8 +87,16 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 	 */
 	public function getReturn() {
 		$return = $this->getTag('return');
+		
+        if(!$return) {
+            return array(
+                'type' => 'NotProvided',
+                'doc'  => '',
+            );
+        }
+        
 		return array(
-			'type' => $return->getType(),
+            'type' => $return->getType() ? $return->getType() : 'NotProvided',
 			'doc'  => $return->getDescription(),
 		);
 	}
