@@ -52,9 +52,29 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 		return $author;
 	}
 	
+	/**
+	 * Returns the return value
+	 */
+	public function getReturn() {
+		$return = $this->getTag('return');
+		return array(
+			'type' => $return->getType(),
+			'doc'  => $return->getDescription(),
+		);
+	}
 	
+	/**
+	 * Returns all params
+	 */
+	public function getReturn() {
+		$return = $this->getTag('return');
+		return array(
+			'type' => $return->getType(),
+			'doc'  => $return->getDescription(),
+		);
+	}
 	
-	
+	// getVariableName
 	/**
 	 * Returns the $tagName Tag
 	 */

@@ -32,7 +32,7 @@ class BanchaApiDescriptor extends BanchaApi {
 		
 		$description = array(
 			'name'  => $stubsName,
-			//'crud'  => $banchaApi->getRemoteApiCrudDescription($controllerClass),
+			'crud'  => $this->getRemoteApiCrudDescription($controllerClass),
 		);
 		
 		// add the class description
@@ -145,20 +145,9 @@ class BanchaApiDescriptor extends BanchaApi {
 				continue; // no crud method
 			}
 			
-			// that's how it looks for the client
-			$clientMethod = $this->crudMapping[$method->name];
-			
-			$crudDescriptions[] = array(
-				'name'			=> $clientMethod['name'],
-				'mappedfrom'	=> $controllerClass.'::'.$method->name,
-				'tagname'		=> 'method',
-				
-				'doc'			=> $reflector->getLongDescription(),
-				'shortDoc'		=> $reflector->getShortDescription(),
-				
-				'tags'			=> $reflector->getTags()
-			);
-			exit($crudDescriptions);
+			// parse data and add description
+			$crudDescriptions[] = $this->getRemoteApiMethodDescription($controllerClass,$method);
+		pr($crudDescriptions); exit();
 		}
 
 		// If this controller supports a form handler submit, add it to the crud actions.
@@ -180,6 +169,33 @@ class BanchaApiDescriptor extends BanchaApi {
 		
 		return $crudDescriptions;
 		
+	}
+
+	/**
+	 * Builds the method description array for $method
+	 * 
+	 * @param ReflectionMethod $method
+	 */
+	protected function getRemoteApiMethodDescription($controllerClass,$method) {
+		// that's how it looks for the client
+		$clientMethod = $this->crudMapping[$method->name];
+			
+		$docComment = new DocCommentHelper($method->getDocComment());
+		
+		// get doc comment
+		$docFirstLine = $docComment->getShortDescription();
+		$docFollowingLines = $docComment->getLongDescription()->getFormattedContents();
+		
+		return array(
+			'name'			=> $clientMethod['name'],
+			'mappedfrom'	=> $controllerClass.'::'.$method->name,
+			'tagname'		=> 'method',
+			
+			'shortDoc'		=> empty($docFollowingLines) ? $docFirstLine : $docFirstLine.' ...',
+			'doc'			=> $docFirstLine.$docFollowingLines,
+			
+			'return'		=> $docComment->getReturn()
+		);
 	}
 }
 
