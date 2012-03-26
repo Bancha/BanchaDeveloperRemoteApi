@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/43/trunk/hyperlight/tests
+END
+xml
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/21/trunk/hyperlight/tests/xml
+END
+simple.css
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/22/trunk/hyperlight/tests/simple.css
+END
+csharp
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/43/trunk/hyperlight/tests/csharp
+END
+python
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/43/trunk/hyperlight/tests/python
+END
+preg_helper.php
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/38/trunk/hyperlight/tests/preg_helper.php
+END
+xml2
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/3/trunk/hyperlight/tests/xml2
+END
+pizzachili_api.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/21/trunk/hyperlight/tests/pizzachili_api.h
+END
+vb
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/42/trunk/hyperlight/tests/vb
+END
+style.css
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/22/trunk/hyperlight/tests/style.css
+END
+module1.vb
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3/trunk/hyperlight/tests/module1.vb
+END

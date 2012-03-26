@@ -26,4 +26,7 @@
  */
 Router::parseExtensions('js');
 Router::redirect('/developer-remote-api.html', 'BanchaDeveloperRemoteApi/developer-remote-api.html',array('status'=>302));
-Router::connect('/bancha-controller-description/:controllerName', array('plugin' => 'BanchaDeveloperRemoteApi', 'controller' => 'RemoteApiDescriptor', 'action' => 'index'),array('pass'=>array('controllerName')));
+Router::connect('/bancha-controller-description/:controllerName', array('plugin' => 'BanchaDeveloperRemoteApi', 
+				'controller' => 'RemoteApiDescriptor', 'action' => 'index'),array('pass'=>array('controllerName')));
+Router::connect('/bancha-file-viewer/:controllerName', array('plugin' => 'BanchaDeveloperRemoteApi', 
+				'controller' => 'RemoteApiDescriptor', 'action' => 'displayFile'),array('pass'=>array('controllerName')));

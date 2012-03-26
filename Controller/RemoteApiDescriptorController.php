@@ -48,6 +48,9 @@ require_once($vendor_path.'phpDocumentor2'.DS.'src'.DS.'markdown.php');
 App::uses('DocCommentHelper', 'BanchaDeveloperRemoteApi.BanchaDeveloperRemoteApi');
 App::uses('BanchaApiDescriptor', 'BanchaDeveloperRemoteApi.BanchaDeveloperRemoteApi');
 
+// load syntax highlighter
+require_once($vendor_path.'hyperlight'.DS.'hyperlight.php');
+
 
 
 /**
@@ -59,10 +62,7 @@ App::uses('BanchaApiDescriptor', 'BanchaDeveloperRemoteApi.BanchaDeveloperRemote
  * @author     Roland Schuetz <roland@banchaproject.com>
  */
 class RemoteApiDescriptorController extends BanchaDeveloperRemoteApiAppController {
-
-	public $name = 'DeveloperRemoteApi';
-	public $autoRender = false; //we don't need a view for this
-	public $autoLayout = false;
+	public $name = 'RemoteApiDescriptor';
 	
     /**
      * Describes an Controller in jsonp format.
@@ -76,13 +76,42 @@ class RemoteApiDescriptorController extends BanchaDeveloperRemoteApiAppControlle
             throw new NotFoundException('This is unavailable in production mode.');
         }
 		
+		$this->autoRender = false; //we don't need a view for this
+		$this->autoLayout = false;
+		
 		// delegate to Bancha Api Descriptor
         $banchaApiDescriptor = new BanchaApiDescriptor();
 		$description = $banchaApiDescriptor->getRemoteApiClassDescription($stubsName);
 
         // no extra view file needed, simply output in  JsonP format
 		$this->response->body(sprintf("Ext.data.JsonP.%s(%s)", $stubsName, json_encode($description)));
-        return;
 	}
 
+	/**
+	 * Displays a file, syntax highlighted 
+	 * The method is only reachable in debug mode, for security reasons.
+	 * 
+     * Mapped as /bancha-file-viewer/stubsName.js
+	 */
+	public function displayFile($stubsName) {
+        if(Configure::read('debug')!=2) {
+            throw new NotFoundException('This is unavailable in production mode.');
+        }
+		
+		// get the controller name without loading it
+		$controllerClass = Inflector::pluralize($stubsName) . 'Controller';
+
+		// check if file exists
+		$path = APP . DS . 'Controller' . DS . $controllerClass . '.php';
+		if(!file_exists($path)) {
+			throw new MissingControllerException(array('class' => $controllerClass));
+		}
+		
+		// set variables for output
+		$this->set('title',$controllerClass);
+		$this->set('path',$path);
+		
+		// we dont need an layout, view already rovides full html
+		$this->autoLayout = false;
+	}
 }

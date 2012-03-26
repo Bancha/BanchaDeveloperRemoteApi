@@ -11,8 +11,9 @@ Ext.define('Docs.view.cls.Header', {
 
     initComponent: function() {
         this.tpl = Ext.create('Ext.XTemplate',
-            '<h1 class="class" style="background: {[this.getTypeImage(values)]}">{name}',
-                '<tpl if="type !== \'remotable-controller\'">',
+            '<h1 class="class" style="background: {[this.getTypeImage(values)]}">',
+            	'<a href="../bancha-file-viewer/{name}" target="_blank">{name}</a>',
+                '<tpl if="crud.length !== 0">',
                     '<span>{[this.getCrudMethods(values.crud)]}</span>',
                 '</tpl>',
             '</h1>',
