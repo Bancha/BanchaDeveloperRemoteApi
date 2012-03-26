@@ -146,8 +146,10 @@ class BanchaApiDescriptor extends BanchaApi {
 			}
 			
 			// parse data and add description
+			if('edit'== $method->name) {
 			$crudDescriptions[] = $this->getRemoteApiMethodDescription($controllerClass,$method);
-		pr($crudDescriptions); exit();
+			pr($crudDescriptions); exit();
+			}
 		}
 
 		// If this controller supports a form handler submit, add it to the crud actions.
@@ -182,19 +184,16 @@ class BanchaApiDescriptor extends BanchaApi {
 			
 		$docComment = new DocCommentHelper($method->getDocComment());
 		
-		// get doc comment
-		$docFirstLine = $docComment->getShortDescription();
-		$docFollowingLines = $docComment->getLongDescription()->getFormattedContents();
-		
 		return array(
 			'name'			=> $clientMethod['name'],
 			'mappedfrom'	=> $controllerClass.'::'.$method->name,
 			'tagname'		=> 'method',
 			
-			'shortDoc'		=> empty($docFollowingLines) ? $docFirstLine : $docFirstLine.' ...',
-			'doc'			=> $docFirstLine.$docFollowingLines,
+			'shortDoc'		=> $docComment->getShortDoc(),
+			'doc'			=> $docComment->getLongDoc(),
 			
-			'return'		=> $docComment->getReturn()
+			'return'		=> $docComment->getReturn(),
+			'params'		=> $docComment->getParams($method)
 		);
 	}
 }

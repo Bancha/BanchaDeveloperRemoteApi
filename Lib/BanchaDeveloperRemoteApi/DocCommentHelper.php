@@ -53,6 +53,25 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 	}
 	
 	/**
+	 * Returns the doc preview
+	 */
+	public function getShortDoc() {
+		$longDocWithoutFirstLine = $this->getLongDescription()->getFormattedContents();
+		if(empty($longDocWithoutFirstLine)) {
+			return $this->getShortDescription();
+		}
+		
+		return $this->getShortDescription().' ...';
+	}
+	
+	/**
+	 * Returns the full, markdown formated doc description
+	 */
+	public function getLongDoc() {
+		return $this->getShortDescription().$this->getLongDescription()->getFormattedContents();
+	}
+	
+	/**
 	 * Returns the return value
 	 */
 	public function getReturn() {
@@ -65,18 +84,38 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 	
 	/**
 	 * Returns all params
+	 * @param ReflectionMethod $method
 	 */
-	public function getReturn() {
-		$return = $this->getTag('return');
-		return array(
-			'type' => $return->getType(),
-			'doc'  => $return->getDescription(),
-		);
+	public function getParams($method) {
+		
+		// we can't just rely on the comments here, so first load reflection data
+		$reflectedParams = $method->getParameters();
+		
+		// in the order of the reflection params build params array
+		$params = array();
+		foreach($reflectedParams as $param) {
+			
+			// find reflected param in docs
+			$docParam = $this->getParam($param->name);
+
+			// get default value
+			$params[] = array(
+				'type'		=> $docParam ? $docParam->getType() : 'NotProvided',
+				'doc'		=> $docParam ? $docParam->getDescription() : '',
+				'name'		=> $param->name,
+				'optional'	=> $param->isOptional(),
+				'default'	=> $this->getDefaultValue($param)
+			);
+		}
+		
+		pr($params);
+		
+		return $params;
 	}
 	
-	// getVariableName
 	/**
 	 * Returns the $tagName Tag
+	 * @param String $tagName
 	 */
 	protected function getTag($tagName) {
 		foreach($this->getTags() as $tag) {
@@ -85,6 +124,45 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 			}
 		}
 		return null;
+	}
+	/**
+	 * Returns the param $paramName
+	 * @param String $paramName
+	 */
+	protected function getParam($paramName) {
+		$paramName = '$'.$paramName;
+		foreach($this->getTags() as $tag) {
+			if($tag->getName() == 'param' && $tag->getVariableName() == $paramName) {
+				return $tag;
+			}
+		}
+		return null;
+	}
+	/**
+	 * Returns the default param value as string or false
+	 * @param ReflectionParameter $param the reflection parameter to get the default from
+	 */
+	protected function getDefaultValue($param) {
+		if(!$param->isOptional()) {
+			// there is no option, $param->getDefaultValue() would trigger an exception
+			return false;
+		}
+		
+		// get default value
+		$value =  $param->getDefaultValue();
+		
+		// booleans
+		if(gettype($value)=='boolean') {
+			return $value ? 'True' : 'False';
+		}
+		
+		// strings
+		if(gettype($value)=='string') {
+			return '"'.$value.'"';
+		}
+		
+		// probably null
+		return gettype($value);
 	}
 }
 
