@@ -1,0 +1,12 @@
+01/04/2012: Version 2.0.0
+--------------------------
+
+* CHANGED: #380, The regex that strips the docblock from the cruft (asterisks)
+           did not remove any tabs that happened directly after the asterisk.
+           This is now added to perform a cleaner stripping and prevent any
+           issues from unexpected whitespace.
+* FIXED:   #398, Interfaces were not inherited correctly
+* CHANGED: Several documentation improvements
+* FIXED:   #379, alternative formats for @method were not recognized
+* FIXED:   GH #379: OR (|) operator was not supported for @method annotation;
+           added support

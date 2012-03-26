@@ -1,0 +1,7 @@
+.idea
+build.properties
+build/*
+.buildpath
+.project
+.settings/
+*.swp
