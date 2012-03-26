@@ -1,4 +1,0 @@
-[submodule "Vendor/phpDocumentor2"]
-        path = Plugin/Bancha
-        url = git://github.com/phpDocumentor/phpDocumentor2.git
-        update = checkout
