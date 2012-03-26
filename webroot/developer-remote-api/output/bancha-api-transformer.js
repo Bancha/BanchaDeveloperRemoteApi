@@ -4,6 +4,12 @@
 // Transform Bancha Remote API data into tree structure
 var classes = [];
 Ext.Object.each(Bancha.REMOTE_API.actions, function(className,methods) {
+	
+	// ignore Bancha
+	if(className==='Bancha') {
+		return;
+	}
+	
     // iterate through all methods
     var crud = false,
     	remotable = false,

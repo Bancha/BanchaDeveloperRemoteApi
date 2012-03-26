@@ -19,12 +19,12 @@ Ext.define('Docs.view.cls.Header', {
             {
             	getTypeImage: function(values) {
             		if(values.crud.length && values.remotable.length) {
-            			return 'url(resources/images/header-icons/crud-remotable-controller.png) no-repeat 18px 3px';
+            			return 'url(developer-remote-api/resources/images/header-icons/crud-remotable-controller.png) no-repeat 18px 3px';
             		}
             		if(values.crud.length) {
-            			return 'url(resources/images/header-icons/crud-controller.png) no-repeat 8px -8px';
+            			return 'url(developer-remote-api/resources/images/header-icons/crud-controller.png) no-repeat 8px -8px';
             		}
-            		return 'url(resources/images/header-icons/remotable-controller.png) no-repeat 0 -10px';
+            		return 'url(developer-remote-api/resources/images/header-icons/remotable-controller.png) no-repeat 0 -10px';
             	},
                 getCrudMethods: function(methods) {
 					var supports = '',

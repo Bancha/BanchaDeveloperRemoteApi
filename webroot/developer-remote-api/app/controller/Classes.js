@@ -252,7 +252,8 @@ Ext.define('Docs.controller.Classes', {
      */
     getBaseUrl: function() {
     	var url = document.location.href.replace(/#.*/, "").replace(/index.html/, ""),
-    		cakeWebroot = url.substr(0,url.substr(0,url.length-1).lastIndexOf('/'));
+    		pluginFolder = url.substr(0,url.substr(0,url.length-1).lastIndexOf('/'));
+    		cakeWebroot = pluginFolder.substr(0,pluginFolder.substr(0,pluginFolder.length-1).lastIndexOf('/'));
         return cakeWebroot;
     }
 
