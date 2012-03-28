@@ -7,7 +7,7 @@ The Tool helps Developer-Teams to create Bancha Applications. When using this to
 
 Instead in debug mode just open _/developer-remote-api.html_ in your browser and you can view all remotely available CakePHP Controller methods.
 
-Features:
+## Features:
 
  - Dynamically reflects on CakePHP app
  - Displays searchable RemoteStubs
@@ -15,7 +15,7 @@ Features:
  - Supports code tags and MarkDown syntax
 
 
-![Bancha Developer Remote API Screenshot](http://docs.banchaproject.com/wiki/images/BanchaDeveloperRemoteApi-screenshot.jpg)
+## ![Bancha Developer Remote API Screenshot](http://docs.banchaproject.com/wiki/images/BanchaDeveloperRemoteApi-screenshot.jpg)
 
 How to setup the project
 ------------------------
