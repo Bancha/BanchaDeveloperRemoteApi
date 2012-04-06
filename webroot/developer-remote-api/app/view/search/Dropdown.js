@@ -24,7 +24,7 @@ Ext.define('Docs.view.search.Dropdown', {
             '<tpl for=".">',
                 '<div class="item {type}">',
                     '<div class="title">{member}</div>',
-                    '<div class="class">{cls}</div>',
+                    '<div class="class">{desc}</div>',
                 '</div>',
             '</tpl>',
             '<div class="total">{[values.length]} of {[this.getTotal()]}</div>',

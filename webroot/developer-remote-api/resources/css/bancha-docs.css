@@ -35,3 +35,10 @@
 #center-container h1.class .author a:hover {
 	text-decoration: underline;
 }
+
+
+/* search icons */
+#search-dropdown .item.method { background: url(../images/properties.png) no-repeat 3px 8px; } /* use the property icon */
+#search-dropdown .item.x-view-over { background-color: #FFFFAA; } /* this must be "overforcing"stronger then the rule above */
+
+/* eof */

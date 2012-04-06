@@ -48,7 +48,8 @@ var searchData = Ext.Array.map(classes, function(el) {
 	return {
         "type": "cls", /* defined the icon */
         "member": el.text, /* display text */
-        "cls": "", /* controller description */
+        "desc" : '',
+        "cls": el.text, /* used for building the url */
         "xtypes": []
 	}
 });
@@ -56,9 +57,10 @@ var searchData = Ext.Array.map(classes, function(el) {
 Ext.Object.each(Bancha.REMOTE_API.actions, function(className,methods) {
 	Ext.Array.each(methods, function(method) {
 		searchData.push({
-        	"type": "property",
+        	"type": "method",
         	"member": method.name,
-        	"cls": className+'.'+method.name+(method.formHandler ? ' @formHandler' : ''),
+            "desc" : className+'.'+method.name+(method.formHandler ? ' @formHandler' : ''),
+        	"cls": className,
         	"xtypes": []
       	});
 	});
