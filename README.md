@@ -5,9 +5,9 @@ Bancha Developer Remote API
 
 The Tool helps Developer-Teams to create Bancha Applications. When using this tool JavaScript Frontend Developer no longer have to dig through any PHP code.
 
-Instead in debug mode just open _/bancha-remote-api.html_ in your browser and you can view all remotely available CakePHP Controller methods.
+Instead in debug mode just open _/developer-remote-api.html_ in your browser and you can view all remotely available CakePHP Controller methods.
 
-Features:
+### Features:
 
  - Dynamically reflects on CakePHP app
  - Displays searchable RemoteStubs
