@@ -289,7 +289,9 @@ Ext.define('Docs.view.cls.Overview', {
         var doc = member.doc;
 
 		// mapping and author
-        doc += 'Mapped from CakePHP: '+member.mappedFrom;
+		if(member.mappedFrom) {
+            doc += '<br />Mapped from CakePHP: '+member.mappedFrom;
+        }
         if(member.author) {
         	doc += '<br />Author: '+member.author;
         }

@@ -160,7 +160,7 @@ class BanchaApiDescriptor extends BanchaApi {
 		
 		return array(
 			'name'			=> $mappedTo,
-			'mappedFrom'	=> $controllerClass.'::'.$method->name,
+			'mappedFrom'	=> ($method->name!=$mappedTo) ? $controllerClass.'::'.$method->name : '', // only display this if it differs
 			'tagname'		=> 'method',
 			'formHandler'	=> false,
 			
