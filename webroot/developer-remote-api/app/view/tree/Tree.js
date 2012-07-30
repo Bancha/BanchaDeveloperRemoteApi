@@ -25,7 +25,12 @@ Ext.define('Docs.view.tree.Tree', {
 
         // Expand the main tree
         this.root.expanded = true;
-        this.root.children[0].expanded = true;
+        if(this.root.children && this.root.children.length) {
+            // otherwise the user just haven't exposed any models
+            // he will see the appropriete notice, triggered from
+            // output/bancha-api-transformer.js
+            this.root.children[0].expanded = true;
+        }
 
         this.on("itemclick", this.onItemClick, this);
 
