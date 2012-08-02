@@ -64,6 +64,15 @@ require_once($vendor_path.'hyperlight'.DS.'hyperlight.php');
 class RemoteApiDescriptorController extends BanchaDeveloperRemoteApiAppController {
 	public $name = 'RemoteApiDescriptor';
 	
+	public function beforeFilter() {
+    	parent::beforeFilter();
+
+		// allow the usage in debug mode, when there's an AuthComponent
+		if(Configure::read('debug')==2 && isset($this->Auth)) {
+			$this->Auth->allow('index','loadMetaData');
+		}
+	}
+	
     /**
      * Describes an Controller in jsonp format.
 	 * The method is only reachable in debug mode, for security reasons.
