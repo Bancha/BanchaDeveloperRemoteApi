@@ -3,14 +3,14 @@
  * AllTestsTest file.
  * 
  * Bancha Developer Remote API : JS Developer Tool for (Bancha](http://banchaproject.com)
- * Copyright 2011-2012 Roland Schuetz
+ * Copyright 2011-2012 StudioQ OG
  *
  * Licensed under The GNU General Public License Version 3
  * Redistributions of files must retain the above copyright notice.
  *
  * @package       BanchaDeveloperRemoteApi
  * @subpackage    Controller
- * @copyright     Copyright 2011-2012 Roland Schuetz
+ * @copyright     Copyright 2011-2012 StudioQ OG
  * @link          http://banchaproject.com Bancha Project
  * @since         BanchaDeveloperRemoteApi v 0.0.1
  * @license       GNU General Public License Version 3
