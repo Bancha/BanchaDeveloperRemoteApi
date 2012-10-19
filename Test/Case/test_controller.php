@@ -55,7 +55,7 @@
                     return $result; // this is an error message
                 }
                 
-                if($this->request->params['isBancha']) return $this->User->saveFieldsAndReturn($this->request->data);	 // added
+                if(isset($this->request->params['isBancha']) && $this->request->params['isBancha']) return $this->User->saveFieldsAndReturn($this->request->data);	 // added
                 
                 if ($this->User->save($this->request->data)) {
                     $this->Session->setFlash(__('The user has been saved'));
@@ -85,7 +85,7 @@
                 return $result; // this is an error message
             }
             
-            if($this->request->params['isBancha']) return $this->User->saveFieldsAndReturn($this->request->data);	 // added
+            if(isset($this->request->params['isBancha']) && $this->request->params['isBancha']) return $this->User->saveFieldsAndReturn($this->request->data);	 // added
             
             if ($this->request->is('post') || $this->request->is('put')) {
                 if ($this->User->save($this->request->data)) {
@@ -104,7 +104,7 @@
             
             // for the samples don't allow to 
             if($id == 1) {
-                if($this->request->params['isBancha']) {
+                if(isset($this->request->params['isBancha']) && $this->request->params['isBancha']) {
                     return array('success'=>false,'message'=>__('It is forbidden to delete record 1, since it\'s used in the form example below.'));
                 } else {
                     throw new NotFoundException(__('It is forbidden to delete record 1, since it\'s used in the form example below.'));
@@ -118,7 +118,7 @@
                 throw new NotFoundException(__('Invalid user'));
             }
             
-            if($this->request->params['isBancha']) return $this->User->deleteAndReturn();	 // added
+            if(isset($this->request->params['isBancha']) && $this->request->params['isBancha']) return $this->User->deleteAndReturn();	 // added
             
             if ($this->User->delete()) {
                 $this->Session->setFlash(__('User deleted'));
@@ -142,7 +142,7 @@
                  * CakePHP standard forms, this should be improved
                  */
                 $file = false;
-                if($this->request->params['isBancha'] && isset($_FILES[$fieldName])) {
+                if(isset($this->request->params['isBancha']) && $this->request->params['isBancha'] && isset($_FILES[$fieldName])) {
                     $file = $_FILES[$fieldName];
                 } elseif(isset($this->request->data[$fieldName])) {
                     $file = $this->request->data[$fieldName];
