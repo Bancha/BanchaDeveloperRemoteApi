@@ -5,7 +5,7 @@ API-Viewer for JS Developers
 
 This Add-On for Bancha helps Developer-Teams in the process of creating Bancha Applications. JavaScript Frontend Developers no longer have to dig through any PHP code to find the available remote methods.
 
-Instead in debug mode they just open _/developer-remote-api.html_ in their browser and can view all remotely available CakePHP Controller methods.
+Instead they just open _/developer-remote-api.html_ in debug mode in their browser and can view all remotely available CakePHP Controller methods.
 
 ### Features:
 
