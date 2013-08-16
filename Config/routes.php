@@ -20,11 +20,29 @@
  */
 
 
+/**
+ * Enable support for the file extension js
+ *
+ * In CakePHP 2.2 and above Router:setExtensions could be used,
+ * for legacy support we need the bug fix version below
+ */
+if(Router::extensions() !== true) { // if all extensions are supported we are done
+
+	// add json and javascript to the extensions
+	$extensions = Router::extensions();
+	if(!is_array($extensions)) {
+		$extensions = array('json','js');
+	} else {
+		array_push($extensions, 'json');
+		array_push($extensions, 'js');
+	}
+
+	call_user_func_array('Router::parseExtensions', $extensions);
+}
 
 /**
  * connect the remote api descriptor
  */
-Router::parseExtensions('js');
 Router::redirect('/developer-remote-api.html', 'BanchaDeveloperRemoteApi/developer-remote-api.html',array('status'=>302));
 Router::connect('/bancha-controller-description/:controllerName', array('plugin' => 'BanchaDeveloperRemoteApi', 
 				'controller' => 'RemoteApiDescriptor', 'action' => 'index'),array('pass'=>array('controllerName')));
