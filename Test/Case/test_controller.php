@@ -13,7 +13,7 @@
         /**
          * Simply displays all Users in a paginated way, also supports Bancha requests. 
          * This description has to be quite long, so we can test the 
-         * BanchaApi::getRemoteApiCrudDescription properly.
+         * BanchaApi::_getRemoteApiCrudDescription properly.
          * @return Array Pagination data and users
          */
         public function index() {

@@ -127,7 +127,6 @@ class BanchaApiDescriptorTest extends CakeTestCase {
 	}
 	
 	public function testGetRemoteApiMethodDescription() {
-		//$this->markTestSkipped('Test not yet written');
 		
 		//getAll has no params
 		$params = $this->result['crud'][0]['params'];

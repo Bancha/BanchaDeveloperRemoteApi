@@ -7,7 +7,8 @@ This Add-On for Bancha helps Developer-Teams in the process of creating Bancha A
 
 Instead they just open _/developer-remote-api.html_ in debug mode in their browser and can view all remotely available CakePHP Controller methods.
 
-### Features:
+Features
+--------
 
  - Dynamically reflects on CakePHP app
  - Displays searchable RemoteStubs
@@ -19,7 +20,8 @@ Instead they just open _/developer-remote-api.html_ in debug mode in their brows
 
 How to setup the project
 ------------------------
-Asuming you already use Bancha on the site, just copy this plugin into _plugins/_ or _app/Plugin/_ and add following line to your _app/Config/bootstrap.php_:
+
+Asuming you already use Bancha 2.1.0+ on the site, just copy this plugin into _Plugin/_ or _app/Plugin/_ and add following line to your _app/Config/bootstrap.php_:
 
     CakePlugin::load(array('BanchaDeveloperRemoteApi' => array('routes' => true))); 
 

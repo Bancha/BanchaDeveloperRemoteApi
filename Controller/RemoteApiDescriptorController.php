@@ -92,8 +92,9 @@ class RemoteApiDescriptorController extends BanchaDeveloperRemoteApiAppControlle
         $banchaApiDescriptor = new BanchaApiDescriptor();
 		$description = $banchaApiDescriptor->getRemoteApiClassDescription($stubsName);
 
-        // no extra view file needed, simply output in  JsonP format
-		$this->response->body(sprintf("Ext.data.JsonP.%s(%s)", $stubsName, json_encode($description)));
+        // no extra view file needed, simply output in JsonP format
+        // JsonP transforms dots in the stubName to underscore
+		$this->response->body(sprintf("Ext.data.JsonP.%s(%s)", str_replace(".", "_", $stubsName), json_encode($description)));
 	}
 
 	/**
