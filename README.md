@@ -19,7 +19,7 @@ Instead they just open _/developer-remote-api.html_ in debug mode in their brows
 
 How to setup the project
 ------------------------
-Asuming you already use Bancha (1.0 Release Candidate or later) on the site, just copy this plugin into _Plugin/_ or _app/Plugin/_ and add following line to your _app/Config/bootstrap.php_:
+Asuming you already use Bancha 2.1.0+ on the site, just copy this plugin into _Plugin/_ or _app/Plugin/_ and add following line to your _app/Config/bootstrap.php_:
 
     CakePlugin::load(array('BanchaDeveloperRemoteApi' => array('routes' => true))); 
 

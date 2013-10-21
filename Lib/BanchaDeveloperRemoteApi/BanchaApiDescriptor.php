@@ -29,16 +29,17 @@ class BanchaApiDescriptor extends BanchaApi {
 	 */
 	public function getRemoteApiClassDescription($stubsName) {
 		$controllerClass = $this->getControllerClassByModelClass($stubsName);
-		$reflectionClass = new ReflectionClass($controllerClass);
+		list($plugin, $class) = pluginSplit($controllerClass, true);
+		$reflectionClass = new ReflectionClass($class);
 		
 		$description = array(
 			'name'		=> $stubsName,
-			'crud'		=> $this->getRemoteApiCrudDescription($controllerClass),
-			'remotable'	=> $this->getRemoteApiRemoteControllerMethodsDescription($reflectionClass),
+			'crud'		=> $this->_getRemoteApiCrudDescription($controllerClass),
+			'remotable'	=> $this->_getRemoteApiRemoteControllerMethodsDescription($reflectionClass),
 		);
 		
 		// add the class description
-		$description = array_merge($description, $this->getClassDescription($reflectionClass));
+		$description = array_merge($description, $this->_getClassDescription($reflectionClass));
 		
 		return $description;
 	}
@@ -47,7 +48,7 @@ class BanchaApiDescriptor extends BanchaApi {
 	 * Loads all class descriptions
 	 * @param ReflectionClass $reflectionClass controller class
 	 */
-	protected function getClassDescription($reflectionClass) {
+	protected function _getClassDescription($reflectionClass) {
 		$docComment = new DocCommentHelper($reflectionClass->getDocComment());
 		
 		return array(
@@ -65,8 +66,8 @@ class BanchaApiDescriptor extends BanchaApi {
 	 * @param string $controllerClass The class name of the controller to reflect on
 	 * @return crud method descriptions in a jsduck-similar way
 	 */
-	protected function getRemoteApiCrudDescription($controllerClass) {
-		$methods = $this->getClassMethods($controllerClass);
+	protected function _getRemoteApiCrudDescription($controllerClass) {
+		$methods = $this->_getClassMethods($controllerClass);
 
 		$addFormHandler = false;
 		$crudDescription_editIndex = 0;
@@ -75,16 +76,16 @@ class BanchaApiDescriptor extends BanchaApi {
 			if ('add' === $method->name || 'edit' == $method->name) {
 				$addFormHandler = true;
 				if('edit' == $method->name) {
-					$crudDescription_editIndex = count($crudDescriptions)+1;
+					$crudDescription_editIndex = count($crudDescriptions);
 				}
 			}
 			
-			if(!isset($this->crudMapping[$method->name])) {
+			if(!isset($this->_crudMapping[$method->name])) {
 				continue; // no crud method
 			}
 			
 			// parse data and add description
-			$crudDescription = $this->getRemoteApiMethodDescription($controllerClass,$method,$this->crudMapping[$method->name]['name']);
+			$crudDescription = $this->_getRemoteApiMethodDescription($controllerClass,$method,$this->_crudMapping[$method->name]['name']);
             
             // adopt to mapping for stores
             if('view' === $method->name) {
@@ -113,7 +114,7 @@ class BanchaApiDescriptor extends BanchaApi {
 				'shortDoc'		=> 'This function can be used in forms to submit data and files.',
 				'doc'			=> 'This function can be used in forms to submit data and files.'.
 								   '<p>If an id is provided it will be applied to add from above, '.
-								   'otherwise to edit. Please see this for more information</p>',
+								   'otherwise to edit. Please read those for more information.</p>',
 				'params'		=> array(),
 				'return'		=> array( 'type' => 'NotProvided', 'doc' => 'See add or edit.'),
 				'linenr'		=> 0
@@ -131,13 +132,13 @@ class BanchaApiDescriptor extends BanchaApi {
 	 * @param ReflectionClass $reflectionClass controller class
 	 * @return crud method descriptions in a jsduck-similar way
 	 */
-	protected function getRemoteApiRemoteControllerMethodsDescription($reflectionClass) {
+	protected function _getRemoteApiRemoteControllerMethodsDescription($reflectionClass) {
 		$remotableDescriptions = array();
 		
 		foreach ($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
 			if (preg_match('/@banchaRemotable/', $method->getDocComment())) {
 				
-				$remotableDescriptions[] = $this->getRemoteApiMethodDescription($reflectionClass->name,$method,$method->name);
+				$remotableDescriptions[] = $this->_getRemoteApiMethodDescription($reflectionClass->name,$method,$method->name);
 			}
 		}
 		
@@ -154,7 +155,7 @@ class BanchaApiDescriptor extends BanchaApi {
 	 * @param ReflectionMethod $method the method to reflect on
 	 * @param String		   $mappedTo the client side name
 	 */
-	protected function getRemoteApiMethodDescription($controllerClass,$method,$mappedTo) {
+	protected function _getRemoteApiMethodDescription($controllerClass,$method,$mappedTo) {
 			
 		$docComment = new DocCommentHelper($method->getDocComment());
 		

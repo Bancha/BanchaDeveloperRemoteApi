@@ -32,7 +32,7 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 	 * Loads and formates the author name for output
 	 */
 	public function getFormatedAuthor() {
-		$author = $this->getTag('author');
+		$author = $this->_getTag('author');
 		
 		if(!$author || $author->getContent()=='') {
 			return '';
@@ -86,7 +86,7 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 	 * Returns the return value
 	 */
 	public function getReturn() {
-		$return = $this->getTag('return');
+		$return = $this->_getTag('return');
 		
         if(!$return) {
             return array(
@@ -115,7 +115,7 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 		foreach($reflectedParams as $param) {
 			
 			// find reflected param in docs
-			$docParam = $this->getParam($param->name);
+			$docParam = $this->_getParam($param->name);
 
 			// get default value
 			$params[] = array(
@@ -134,7 +134,7 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 	 * Returns the $tagName Tag
 	 * @param String $tagName
 	 */
-	protected function getTag($tagName) {
+	protected function _getTag($tagName) {
 		foreach($this->getTags() as $tag) {
 			if($tag->getName() == $tagName) {
 				return $tag;
@@ -146,7 +146,7 @@ class DocCommentHelper extends phpDocumentor_Reflection_DocBlock {
 	 * Returns the param $paramName
 	 * @param String $paramName
 	 */
-	protected function getParam($paramName) {
+	protected function _getParam($paramName) {
 		$paramName = '$'.$paramName;
 		foreach($this->getTags() as $tag) {
 			if($tag->getName() == 'param' && $tag->getVariableName() == $paramName) {
