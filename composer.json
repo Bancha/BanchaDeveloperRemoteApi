@@ -1,0 +1,25 @@
+{
+	"name": "bancha/bancha-developer-remote-api",
+	"description": "This Add-On for Bancha helps Developer-Teams in the process of creating Bancha Applications.",
+	"type": "cakephp-plugin",
+	"keywords": ["bancha", "developer", "remote", "api", "documentation", "docs", "cakephp", "extjs", "ext js", "sencha extjs", "sencha ext js", "sencha", "sencha touch", "sencha architect" ],
+	"homepage": "http://bancha.io",
+	"license": "LGPL-3.0",
+	"authors": [
+		{
+		  "name": "codeQ e.U.",
+		  "homepage": "http://www.codeq.at/"
+		}
+	],
+	"support": {
+		"email": "support@banchaproject.org",
+		"source": "https://github.com/Bancha/BanchaDeveloperRemoteApi"
+	},
+	"require": {
+	  "php": ">=5.2.8",
+	  "composer/installers": "*"
+	},
+	"extra": {
+		"installer-name": "BanchaDeveloperRemoteApi"
+	}
+}
