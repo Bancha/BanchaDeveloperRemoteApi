@@ -16,7 +16,7 @@ $theme-name: 'default' !default;
  * @var {boolean/string} $relative-image-path-for-uis 
  * True to use a relative image path for all new UIs. If true, the path will be "../images/".
  * It can also be a string of the path value.
- * It defaults to false, which means it will look for the images in the ExtJS SDK folder.
+ * It defaults to false, which means it will look for the images in the Ext JS SDK folder.
  */
 $relative-image-path-for-uis: false !default;
 

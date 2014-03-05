@@ -1,5 +1,5 @@
 
-// catch every debug exception thrown from either ExtJS or Bancha
+// catch every debug exception thrown from either Ext JS or Bancha
 Ext.Error.handle = function(err) {
     Ext.Msg.alert('Error', err.msg);
 };
